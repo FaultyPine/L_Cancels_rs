@@ -12,7 +12,7 @@ static mut temp_global_frame: [i32; 8] = [0;8];
 static mut lcancelframe: [i32; 8] = [0;8];
 pub static mut successful_l_cancel: [bool; 8] = [false;8];
 static mut color_flash_flag: [bool; 8] = [false;8];
-//static cancel_lag: i32 = 15; 
+static cancel_lag: i32 = 15; 
 
 
 
