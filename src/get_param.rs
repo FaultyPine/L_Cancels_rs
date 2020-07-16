@@ -1,9 +1,10 @@
 use smash::{hash40, app, Result, lib::lua_const::*, app::lua_bind::*};
 use crate::utils::*;
+use crate::L_Cancels::l_cancel_flag;
 
 
 fn is_landing_lag_param(param_type: u64, param_hash: u64) -> bool{
-    if param_hash == 0{
+    if param_hash == 0 {
         if [hash40("landing_attack_air_frame_n"), hash40("landing_attack_air_frame_hi"), hash40("landing_attack_air_frame_lw"), hash40("landing_attack_air_frame_f"), hash40("landing_attack_air_frame_b")]
         .contains(&param_type){
             return true;
@@ -20,19 +21,19 @@ Universally, all base landing lag is multiplied by "universalmul". If you succes
 */
 static option_A_or_B: bool = true;
 
-use crate::L_Cancels::successful_l_cancel;
+
 #[skyline::hook(replace = WorkModule::get_param_float)]
 unsafe fn get_param_float_hook(boma: &mut app::BattleObjectModuleAccessor, param_type: u64, param_hash: u64) -> f32{
     
-    if get_category(boma) == BATTLE_OBJECT_CATEGORY_FIGHTER && is_landing_lag_param(param_type, param_hash) {
+    if get_category(boma) == *BATTLE_OBJECT_CATEGORY_FIGHTER && is_landing_lag_param(param_type, param_hash) {
         
         if option_A_or_B { //option A
-            if successful_l_cancel[get_player_number(boma)] { 
+            if l_cancel_flag[get_player_number(boma)] { 
                 return original!()(boma, param_type, param_hash) / 2.;
             }
         }
         else{ //option B
-            if !successful_l_cancel[get_player_number(boma)] { 
+            if !l_cancel_flag[get_player_number(boma)] { 
                 return original!()(boma, param_type, param_hash) * 2.;
             }
         }
@@ -40,8 +41,4 @@ unsafe fn get_param_float_hook(boma: &mut app::BattleObjectModuleAccessor, param
     }
 
     original!()(boma, param_type, param_hash)
-}
-
-pub fn get_param_function_hooks(){
-    skyline::install_hook!(get_param_float_hook);
 }
