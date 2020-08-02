@@ -15,7 +15,8 @@ fn nro_main(nro: &NroInfo) {
         "common" => {
             skyline::install_hooks!(
                 L_Cancels::status_attackair_hook,
-                L_Cancels::status_landing_hook
+                L_Cancels::status_landing_attack_air_main_hook,
+                L_Cancels::is_enable_transition_term_hook
             );
         }
         _ => (),
