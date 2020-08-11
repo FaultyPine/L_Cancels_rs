@@ -43,11 +43,9 @@ pub unsafe fn status_landing_attack_air_main_hook(fighter: &mut L2CFighterCommon
         ColorBlendModule::set_main_color(boma, &colorflashvec1, &colorflashvec2, 0.7, 0.2, 25, true);
         l_cancel_flag[get_player_number(boma)] = false;
         aerial_L_press_frame[get_player_number(boma)] = 0;
-        println!("setcolor");
     }
     if CancelModule::is_enable_cancel(boma) {
         ColorBlendModule::cancel_main_color(boma, 0);
-        println!("colorcancel");
     }
     ControlModule::clear_command(boma, true);
 
@@ -63,7 +61,7 @@ pub unsafe fn is_enable_transition_term_hook(boma: &mut app::BattleObjectModuleA
         (flag == FIGHTER_STATUS_TRANSITION_TERM_ID_CONT_GUARD_ON || flag == FIGHTER_STATUS_TRANSITION_TERM_ID_CONT_CATCH || 
         flag == FIGHTER_STATUS_TRANSITION_TERM_ID_CONT_ESCAPE || flag == FIGHTER_STATUS_TRANSITION_TERM_ID_CONT_ESCAPE_F || flag == FIGHTER_STATUS_TRANSITION_TERM_ID_CONT_ESCAPE_B);
 
-    if disable_trans_terms[get_player_number(boma)] && MotionModule::frame(boma) / MotionModule::rate(boma) <= L_CANCEL_INPUT_LOCKOUT {
+    if disable_trans_terms[get_player_number(boma)] && MotionModule::frame(boma) / MotionModule::rate(boma) as f32 <= L_CANCEL_INPUT_LOCKOUT {
         return false;
     }
 

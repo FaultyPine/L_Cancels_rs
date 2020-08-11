@@ -16,7 +16,6 @@ fn nro_main(nro: &NroInfo) {
             skyline::install_hooks!(
                 L_Cancels::status_attackair_hook,
                 L_Cancels::status_landing_attack_air_main_hook,
-                L_Cancels::is_enable_transition_term_hook
             );
         }
         _ => (),
@@ -25,6 +24,6 @@ fn nro_main(nro: &NroInfo) {
 
 #[skyline::main(name = "L-Cancels")]
 pub fn main() {
-    skyline::install_hook!(get_param::get_param_float_hook);
+    skyline::install_hooks!(get_param::get_param_float_hook, L_Cancels::is_enable_transition_term_hook);
     nro::add_hook(nro_main).unwrap();
 }
