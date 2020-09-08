@@ -50,7 +50,7 @@ pub unsafe fn status_landing_attack_air_main_hook(fighter: &mut L2CFighterCommon
     // if the l_cancel_flag is on, and it's the first frame of whatever animation the player is in,
     //  (in this case, it will - with 100% certainty - be the landing anim)
     // then set the "main color" of the current player to white and reset all l-cancel related flags/timers
-    if l_cancel_flag[get_player_number(boma)] && MotionModule::frame(boma) as i32 == 0 {
+    if l_cancel_flag[get_player_number(boma)] && MotionModule::frame(boma) as i32 == 0 && app::utility::get_kind(boma) != *FIGHTER_KIND_NANA {
         let colorflashvec1 = Vector4f { /* Red */ x : 1.0, /* Green */ y : 1.0, /* Blue */ z : 1.0, /* Alpha? */ w : 0.1}; // setting this and the next vector's .w to 1 seems to cause a ghostly effect
         let colorflashvec2 = Vector4f { /* Red */ x : 1.0, /* Green */ y : 1.0, /* Blue */ z : 1.0, /* Alpha? */ w : 0.1};
         ColorBlendModule::set_main_color(boma, &colorflashvec1, &colorflashvec2, 0.7, 0.2, 25, true);
